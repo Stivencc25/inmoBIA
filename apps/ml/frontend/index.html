@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ListaPro — Generador de Listados Inmobiliarios</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">Lista<span>Pro</span></div>
+      <p class="tagline">Genera listados profesionales con IA en segundos</p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ══════════════════ FORM SECTION ══════════════════ -->
+    <section id="form-section">
+      <form id="listing-form" novalidate>
+
+        <!-- ── Propiedad ── -->
+        <div class="card">
+          <h2 class="card-title"><span class="card-num">1</span> Datos de la Propiedad</h2>
+          <div class="grid-2">
+            <div class="field">
+              <label for="tipo">Tipo de Propiedad <span class="req">*</span></label>
+              <select id="tipo" name="tipo" required>
+                <option value="">Selecciona…</option>
+                <option value="Casa">Casa</option>
+                <option value="Departamento">Departamento</option>
+                <option value="Terreno">Terreno</option>
+                <option value="Local Comercial">Local Comercial</option>
+                <option value="Oficina">Oficina</option>
+                <option value="Bodega">Bodega</option>
+                <option value="Rancho">Rancho</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="operacion">Operación <span class="req">*</span></label>
+              <select id="operacion" name="operacion" required>
+                <option value="">Selecciona…</option>
+                <option value="Venta">Venta</option>
+                <option value="Renta">Renta</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="direccion">Dirección <span class="req">*</span></label>
+            <input type="text" id="direccion" name="direccion"
+                   placeholder="Calle, número, colonia" required />
+          </div>
+
+          <div class="grid-3">
+            <div class="field">
+              <label for="ciudad">Ciudad <span class="req">*</span></label>
+              <input type="text" id="ciudad" name="ciudad" placeholder="Guadalajara" required />
+            </div>
+            <div class="field">
+              <label for="estado">Estado <span class="req">*</span></label>
+              <input type="text" id="estado" name="estado" placeholder="Jalisco" required />
+            </div>
+            <div class="field">
+              <label for="precio">Precio (MXN) <span class="req">*</span></label>
+              <input type="text" id="precio" name="precio"
+                     placeholder="3,500,000" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Características ── -->
+        <div class="card">
+          <h2 class="card-title"><span class="card-num">2</span> Características</h2>
+          <div class="grid-3">
+            <div class="field">
+              <label for="recamaras">Recámaras</label>
+              <input type="number" id="recamaras" name="recamaras" min="0" placeholder="3" />
+            </div>
+            <div class="field">
+              <label for="banos">Baños</label>
+              <input type="number" id="banos" name="banos" min="0" step="0.5" placeholder="2" />
+            </div>
+            <div class="field">
+              <label for="estacionamientos">Estacionamientos</label>
+              <input type="number" id="estacionamientos" name="estacionamientos" min="0" placeholder="2" />
+            </div>
+            <div class="field">
+              <label for="metros_construidos">M² Construidos</label>
+              <input type="number" id="metros_construidos" name="metros_construidos" min="0" placeholder="180" />
+            </div>
+            <div class="field">
+              <label for="metros_terreno">M² Terreno</label>
+              <input type="number" id="metros_terreno" name="metros_terreno" min="0" placeholder="250" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Amenidades</label>
+            <div class="tag-input-wrap" id="tag-wrap">
+              <div class="tags" id="tags-container"></div>
+              <input type="text" id="tag-input" placeholder="Escribe y presiona Enter…" />
+            </div>
+            <input type="hidden" id="amenidades" name="amenidades" value="[]" />
+            <p class="hint">Ej: Alberca, Gimnasio, Seguridad 24h, Jardín</p>
+          </div>
+
+          <div class="field">
+            <label for="descripcion_agente">Notas del Agente <span class="req">*</span></label>
+            <textarea id="descripcion_agente" name="descripcion_agente" rows="4"
+                      placeholder="Describe los puntos únicos: vista, remodelación reciente, ubicación privilegiada…"
+                      required></textarea>
+          </div>
+        </div>
+
+        <!-- ── Agente ── -->
+        <div class="card">
+          <h2 class="card-title"><span class="card-num">3</span> Información del Agente</h2>
+          <div class="grid-2">
+            <div class="field">
+              <label for="agente_nombre">Nombre <span class="req">*</span></label>
+              <input type="text" id="agente_nombre" name="agente_nombre"
+                     placeholder="Ana García" required />
+            </div>
+            <div class="field">
+              <label for="agente_telefono">Teléfono <span class="req">*</span></label>
+              <input type="tel" id="agente_telefono" name="agente_telefono"
+                     placeholder="+52 33 1234 5678" required />
+            </div>
+            <div class="field">
+              <label for="agente_email">Email <span class="req">*</span></label>
+              <input type="email" id="agente_email" name="agente_email"
+                     placeholder="ana@inmobiliaria.mx" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Fotos ── -->
+        <div class="card">
+          <h2 class="card-title"><span class="card-num">4</span> Fotografías</h2>
+
+          <div class="field">
+            <label>Foto Principal (Portada) <span class="req">*</span></label>
+            <div class="upload-box" id="portada-box">
+              <input type="file" id="portada" name="portada"
+                     accept="image/*" required class="file-input" />
+              <div class="upload-content" id="portada-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M14 8h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <p>Arrastra o <span class="link">selecciona la portada</span></p>
+                <p class="hint">JPG, PNG — máx. 10 MB</p>
+              </div>
+              <img id="portada-preview" class="preview-img hidden" alt="Portada" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Fotos Adicionales (hasta 9)</label>
+            <div class="upload-box upload-box--multi" id="extras-box">
+              <input type="file" id="extras" name="extras"
+                     accept="image/*" multiple class="file-input" />
+              <div class="upload-content" id="extras-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M14 8h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <p>Arrastra o <span class="link">selecciona fotos adicionales</span></p>
+              </div>
+              <div id="extras-grid" class="extras-grid hidden"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            Generar Listado con IA
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- ══════════════════ LOADING ══════════════════ -->
+    <section id="loading-section" class="hidden">
+      <div class="loading-card">
+        <div class="spinner"></div>
+        <h3 id="loading-msg">Analizando la propiedad con IA…</h3>
+        <p class="loading-sub">Esto puede tomar unos segundos</p>
+      </div>
+    </section>
+
+    <!-- ══════════════════ RESULTS ══════════════════ -->
+    <section id="results-section" class="hidden">
+
+      <div class="results-header">
+        <h2>¡Listado Generado!</h2>
+        <button class="btn btn-outline" id="new-listing-btn">+ Nuevo Listado</button>
+      </div>
+
+      <!-- Descripción -->
+      <div class="card result-card">
+        <div class="result-card-header">
+          <h3>Descripción Profesional</h3>
+          <button class="btn btn-sm btn-outline" id="edit-desc-btn">Editar</button>
+        </div>
+        <div id="desc-display" class="result-text"></div>
+        <textarea id="desc-edit" class="result-textarea hidden" rows="6"></textarea>
+        <div id="desc-actions" class="hidden mt-sm">
+          <button class="btn btn-sm btn-primary" id="save-desc-btn">Guardar</button>
+          <button class="btn btn-sm btn-ghost" id="cancel-desc-btn">Cancelar</button>
+        </div>
+      </div>
+
+      <!-- Instagram copy -->
+      <div class="card result-card">
+        <div class="result-card-header">
+          <h3>Copy para Instagram</h3>
+          <div class="btn-group">
+            <button class="btn btn-sm btn-outline" id="edit-ig-btn">Editar</button>
+            <button class="btn btn-sm btn-outline" id="copy-ig-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+              Copiar
+            </button>
+          </div>
+        </div>
+        <div id="ig-display" class="result-text result-text--mono"></div>
+        <textarea id="ig-edit" class="result-textarea hidden" rows="5"></textarea>
+        <div id="ig-actions" class="hidden mt-sm">
+          <button class="btn btn-sm btn-primary" id="save-ig-btn">Guardar</button>
+          <button class="btn btn-sm btn-ghost" id="cancel-ig-btn">Cancelar</button>
+        </div>
+      </div>
+
+      <!-- Descargas -->
+      <div class="card result-card">
+        <h3 class="mb-md">Materiales Generados</h3>
+        <div class="assets-grid">
+
+          <!-- PDF -->
+          <div class="asset-item">
+            <div class="asset-preview asset-preview--pdf">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+              <span>PDF Listado</span>
+            </div>
+            <a id="pdf-link" href="#" target="_blank" class="btn btn-primary btn-block mt-sm">
+              Descargar PDF
+            </a>
+          </div>
+
+          <!-- Instagram Image -->
+          <div class="asset-item">
+            <div class="asset-preview asset-preview--img">
+              <img id="ig-img-preview" src="" alt="Instagram" class="asset-img" />
+            </div>
+            <a id="ig-img-link" href="#" target="_blank" class="btn btn-primary btn-block mt-sm">
+              Descargar Imagen
+            </a>
+          </div>
+
+          <!-- Video -->
+          <div class="asset-item" id="video-asset">
+            <div class="asset-preview asset-preview--video" id="video-preview-box">
+              <video id="video-player" class="asset-video hidden" controls></video>
+              <div id="video-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48">
+                  <polygon points="23 7 16 12 23 17 23 7"/>
+                  <rect x="1" y="5" width="15" height="14" rx="2"/>
+                </svg>
+                <span>Video Slideshow</span>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-block mt-sm" id="gen-video-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <polygon points="23 7 16 12 23 17 23 7"/>
+                <rect x="1" y="5" width="15" height="14" rx="2"/>
+              </svg>
+              Generar Video
+            </button>
+            <a id="video-link" href="#" download class="btn btn-outline btn-block mt-xs hidden">
+              Descargar Video
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Publicar en Instagram -->
+      <div class="card result-card">
+        <div class="result-card-header">
+          <h3>Publicar en Instagram</h3>
+          <span class="badge badge--info">via upload-post.com</span>
+        </div>
+        <p class="hint mb-md">Publica directamente la imagen del listado en tu cuenta de Instagram.</p>
+        <button class="btn btn-instagram" id="publish-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+          Publicar en Instagram
+        </button>
+        <p id="publish-status" class="publish-status hidden"></p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
