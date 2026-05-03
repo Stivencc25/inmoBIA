@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.next/
+dist/
+.turbo/
+out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Data / models
+apps/ml/data/
+apps/ml/src/models/*.pkl
+apps/ml/src/models/*.joblib
+
+# Misc
+.DS_Store
+*.log
+.vercel
+.railway
