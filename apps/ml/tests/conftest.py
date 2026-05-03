@@ -1,7 +1,10 @@
+import os
 import pytest
-import tempfile
 from pathlib import Path
 from PIL import Image
+
+# Must be set before routes are imported so AsyncOpenAI doesn't raise at import time.
+os.environ.setdefault("OPENAI_API_KEY", "sk-test-00000000000000000000000000000000")
 
 
 SAMPLE_PROPERTY = {

@@ -9,8 +9,6 @@ from PIL import Image
 
 @pytest.fixture(scope="module")
 def client(tmp_path_factory):
-    # Point generated/ and uploads/ to temp dirs so the app doesn't write to cwd
-    import os
     tmp = tmp_path_factory.mktemp("app")
     gen_dir = tmp / "generated"
     gen_dir.mkdir()
@@ -62,8 +60,7 @@ FORM_DATA = {
 }
 
 
-@pytest.mark.asyncio
-async def test_generate_returns_session(client):
+def test_generate_returns_session(client):
     mock_response = MagicMock()
     mock_response.choices = [MagicMock()]
     mock_response.choices[0].message.content = json.dumps({
